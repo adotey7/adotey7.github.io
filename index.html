@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+    <base href="/" />
+
+    <meta charset="UTF-8" />
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible" />
+    <meta name="description" content="A new Flutter project." />
+
+    <!-- iOS meta tags & icons -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="weather_app" />
+    <link rel="apple-touch-icon" href="playstore.png" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="playstore.png" />
+
+    <title>weathie - Weather app</title>
+    <link rel="manifest" href="manifest.json" />
+
+    <script>
+      // The value below is injected by flutter build, do not touch.
+      const serviceWorkerVersion = "3603572140";
+    </script>
+    <!-- This script adds the flutter initialization JS code -->
+    <script src="flutter.js" defer></script>
+  </head>
+  <body>
+    <style>
+      body {
+        background-color: #191c1d;
+        height: fit-content;
+        overflow: hidden;
+      }
+      .main-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        height: 100vh;
+
+        transition: opacity 3s ease-out;
+      }
+      .loader {
+        width: 6.25rem;
+        height: 6.25rem;
+        background: linear-gradient(
+          165deg,
+          rgba(255, 255, 255, 1) 0%,
+          rgb(220, 220, 220) 40%,
+          rgb(170, 170, 170) 98%,
+          rgb(10, 10, 10) 100%
+        );
+        border-radius: 50%;
+        position: relative;
+      }
+
+      .loader:before {
+        position: absolute;
+        content: "";
+        width: 100%;
+        height: 100%;
+        border-radius: 100%;
+        border-bottom: 0 solid #ffffff05;
+        box-shadow: 0 -10px 20px 20px #ffffff40 inset,
+          0 -5px 15px 10px #ffffff50 inset, 0 -2px 5px #ffffff80 inset,
+          0 -3px 2px #ffffffbb inset, 0 2px 0px #ffffff, 0 2px 3px #ffffff,
+          0 5px 5px #ffffff90, 0 10px 15px #ffffff60, 0 10px 20px 20px #ffffff40;
+        filter: blur(3px);
+        animation: 2s rotate linear infinite;
+      }
+
+      @keyframes rotate {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+    <script>
+      function delay(time) {
+        return new Promise((resolve) => setTimeout(resolve, time));
+      }
+      window.addEventListener("load", function (ev) {
+        // Download main.dart.js
+        let loaderCon = document.querySelector("#loader-content");
+
+        _flutter.loader.loadEntrypoint({
+          serviceWorker: {
+            serviceWorkerVersion: serviceWorkerVersion,
+          },
+          onEntrypointLoaded: function (engineInitializer) {
+            engineInitializer
+              .initializeEngine()
+              .then(async function (appRunner) {
+                loaderCon.style.opacity = "0";
+                await delay(400);
+                await appRunner.runApp();
+              });
+          },
+        });
+      });
+    </script>
+    <div class="main-content" id="loader-content">
+      <span class="loader"></span>
+    </div>
+  </body>
+</html>
